@@ -23,7 +23,7 @@ Employees.init(
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'role',
+            model: 'roles',
             key: 'id',
           },
       },

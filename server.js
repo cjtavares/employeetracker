@@ -49,7 +49,6 @@ const db = mysql.createConnection(
     Department.findAll({
     }).then((departmentData) =>{
     let departmentNames = [];
-    // db.query('SELECT name FROM department', function (err, results) { 
      for (let i = 0; i < departmentData.length; i++){
         let departmentName = departmentData[i].dataValues.name;
         departmentNames.push(departmentName)
@@ -79,7 +78,6 @@ const db = mysql.createConnection(
                checkDepartmentID = departmentData[i].dataValues.id
             } 
         }
-        // console.log(checkDepartmentID)
         db.query(`INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`,[response.roleName, response.roleSalary, checkDepartmentID] ,function (err, results) {
             console.log("New role added"); 
             init();
@@ -95,6 +93,70 @@ const db = mysql.createConnection(
 
     };
 
+    const updateEmployeeRole = () => {
+      Employees.findAll({
+      }).then((employeeData) =>{
+        
+        let employeeFirstNames = [];
+        let employeeLastNames = [];
+        
+        for (let i = 0; i < employeeData.length; i++){
+        let employeeFirstName = employeeData[i].dataValues.first_name;
+        let employeeLastName = employeeData[i].dataValues.last_name;
+        employeeFirstNames.push(employeeFirstName);
+        employeeLastNames.push(employeeLastName);
+    }
+        let employeeNames = [];
+        for (let i = 0; i < employeeData.length; i++){
+        let fullName = `${employeeFirstNames[i]} ${employeeLastNames[i]}`;
+        employeeNames.push(fullName)
+  }
+         Roles.findAll({
+          }).then((roleData) =>{
+          let roleNames = [];
+          for (let i = 0; i < roleData.length; i++){
+          let roleName = roleData[i].dataValues.title;
+          roleNames.push(roleName)
+  }
+          inquirer.prompt([
+            {
+             type: 'list',
+              message: "Which employee's role do you want to update?",
+             name: "employeename",
+             choices: employeeNames,
+           },
+            {
+             type: 'list',
+             message: 'Which role do you want to assign the selected employee?',
+             name: 'newrole',
+             choices: roleNames,
+            },
+          ])
+            .then((response) => {
+             let name = `${response.employeename}`
+             const firstName = name.split(" ")
+             
+             let checkRoleID
+             for (let i = 0; i < roleData.length; i++){
+              if(response.newrole === roleData[i].dataValues.title){
+                 checkRoleID = roleData[i].dataValues.id
+              }}
+              
+            Employees.update({
+                role_id: checkRoleID,
+            },
+            {
+            where: {
+              last_name: firstName[1],
+            }
+          })
+         
+        }) 
+      }) 
+  }
+  )
+  };
+    
 
 const init = () => {inquirer.prompt([
     {
@@ -107,25 +169,25 @@ const init = () => {inquirer.prompt([
   .then((response) =>
     {switch (response.promtquestion) {
         case "View All Employees":
-            showEmployees();
-            break; 
+          showEmployees();
+          break; 
         case "Add Employee":
-            addEmployee();
-            break; 
+          addEmployee();
+          break; 
         case "Update Employees Role":
-            
-            break;  
+          updateEmployeeRole();
+          break;  
         case "View All Roles":
-            showRoles();   
-            break;
+          showRoles();   
+          break;
         case "Add Role":
-            addRole();
-            break;
+          addRole();
+          break;
         case "View All Departments":
-           showDepartment();
-            break;
+          showDepartment();
+          break;
         case "Add Department":
-            addDepartment();     
+          addDepartment();     
       }}
   )};
 
