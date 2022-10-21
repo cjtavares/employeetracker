@@ -22,4 +22,5 @@ VALUES("John", "Doe", 1, null),
       ("Kunal", "Singh", 5, null),
       ("Malia", "Brown", 6, 5),
       ("Sarah", "Lourd", 7, null),
-      ("Tom", "Allen", 8, 7)       
+      ("Tom", "Allen", 8, 7), 
+      ("John", "Smith", 8, null);      
