@@ -17,7 +17,7 @@ https://drive.google.com/file/d/1iL0jM1Y_M-SE-SzTbuhOArJ8VXw7sn3G/view
 ## Installation
 
 Clone from GitHub and run the schema.sql and seed,sql in the db directory.
-
+https://github.com/cjtavares/employeetracker
 ## Usage
 
 N/A
